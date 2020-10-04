@@ -2,7 +2,7 @@
 
 /* Global Styles */
 :root {
-  --primary-color: #003699;
+  --primary-color: #411761;
   --dark-color: #333333;
   --light-color: #f4f4f4;
   --danger-color: #dc3545;
@@ -94,6 +94,7 @@ img {
 .card {
   padding: 1rem;
   border: #ccc 1px dotted;
+  border-radius: 7px;
   margin: 0.7rem 0;
 }
 
@@ -281,6 +282,14 @@ img {
   color: #333;
 }
 
+.btn-lighter,
+.bg-lighter,
+.badge-lighter,
+.alert-lighter {
+  background: var(--lighter-color);
+  color: #333;
+}
+
 .btn-dark,
 .bg-dark,
 .badge-dark,
@@ -349,11 +358,13 @@ textarea {
   padding: 0.4rem;
   font-size: 1.2rem;
   border: 1px solid #ccc;
+  border-radius: 7px;
 }
 
 input[type='submit'],
 button {
   font: inherit;
+  border-radius: 7px;
 }
 
 .form-group {
