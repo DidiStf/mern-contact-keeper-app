@@ -5,7 +5,7 @@ const config = require('config');
 const { body, validationResult } = require('express-validator');
 
 const authenticate = require('../middleware/auth');
-const User = require('../models/User');
+const userService = require('../services/user');
 
 const router = express.Router();
 
@@ -14,7 +14,7 @@ const router = express.Router();
 // @access Private
 router.get('/', authenticate, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select('-password');
+    const user = await userService.findOneById(req.user.id);
     res.json({ user });
   } catch (err) {
     console.error(err.message);
@@ -40,7 +40,7 @@ router.post(
 
     const { email, password } = req.body;
     try {
-      let user = await User.findOne({ email });
+      let user = await userService.findOneByEmailForAuthentication(email);
 
       if (!user) {
         return res.status(400).json({ msg: 'Inavlid credentials' });

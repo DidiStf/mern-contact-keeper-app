@@ -2,8 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 
 const authenticate = require('../middleware/auth');
-const Contact = require('../models/Contact');
-const User = require('../models/User');
+const contactService = require('../services/contact');
 
 const router = express.Router();
 
@@ -12,9 +11,7 @@ const router = express.Router();
 // @access Private
 router.get('/', authenticate, async (req, res) => {
   try {
-    const contacts = await Contact.find({ user: req.user.id }).sort({
-      date: -1,
-    });
+    const contacts = await contactService.findAllByUserId(req.user.id);
     res.json(contacts);
   } catch (err) {
     console.error(err.message);
@@ -38,15 +35,15 @@ router.post(
     const { name, email, phone, type } = req.body;
 
     try {
-      const newContact = new Contact({
+      const contactData = {
         name,
         email,
         phone,
         type,
         user: req.user.id,
-      });
+      };
 
-      const contact = await newContact.save();
+      const contact = await contactService.saveContact(contactData);
 
       res.json(contact);
     } catch (err) {
@@ -71,7 +68,7 @@ router.put('/:id', authenticate, async (req, res) => {
   if (type) contactFields.type = type;
 
   try {
-    let contact = await Contact.findById(id);
+    let contact = await contactService.findOneById(id);
 
     if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
@@ -79,11 +76,7 @@ router.put('/:id', authenticate, async (req, res) => {
     if (contact.user.toString() !== req.user.id)
       return res.status(401).json({ msg: 'Not authorized' });
 
-    contact = await Contact.findByIdAndUpdate(
-      id,
-      { $set: contactFields },
-      { new: true }
-    );
+    contact = await contactService.updateContact(id, contactFields);
 
     res.json(contact);
   } catch (err) {
@@ -98,7 +91,7 @@ router.put('/:id', authenticate, async (req, res) => {
 router.delete('/:id', authenticate, async (req, res) => {
   const { id } = req.params;
   try {
-    let contact = await Contact.findById(id);
+    let contact = await contactService.findOneById(id);
 
     if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
@@ -106,7 +99,7 @@ router.delete('/:id', authenticate, async (req, res) => {
     if (contact.user.toString() !== req.user.id)
       return res.status(401).json({ msg: 'Non authorized' });
 
-    await Contact.findByIdAndRemove(id);
+    await contactService.deleteContact(id);
 
     res.json({ msg: 'Contact removed' });
   } catch (err) {
