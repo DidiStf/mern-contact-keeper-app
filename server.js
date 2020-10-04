@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const path = require('path');
 const colors = require('colors');
 const morgan = require('morgan');
 
@@ -22,12 +23,20 @@ connectDB();
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.json({ msg: 'Welcome to the Contact Keeper' }));
-
 // Define Routes
 app.use('/api/auth', auth);
 app.use('/api/contacts', contacts);
 app.use('/api/users', users);
+
+// Serve static assets in production
+if (process.end.NODE_ENV === 'production') {
+  // Set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+}
 
 app.listen(PORT, () =>
   console.log(`Server running in ${ENV} mode on port ${PORT}`.cyan.bold)
