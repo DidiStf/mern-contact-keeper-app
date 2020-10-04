@@ -6,8 +6,8 @@ const ContactForm = () => {
   const {
     addContactAction,
     clearCurrentContactAction,
-    updateContactAction,
     current,
+    updateContactAction,
   } = useContext(ContactContext);
 
   const [contact, setContact] = useState({

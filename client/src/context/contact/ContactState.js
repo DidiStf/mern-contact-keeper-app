@@ -1,63 +1,107 @@
+import axios from 'axios';
 import React, { useReducer } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
 import {
   ADD_CONTACT,
-  DELETE_CONTACT,
-  SET_CURRENT_CONTACT,
+  CLEAR_CONTACTS,
   CLEAR_CURRENT_CONTACT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
   CLEAR_FILTER,
+  CONTACT_ERROR,
+  DELETE_CONTACT,
+  GET_CONTACTS,
+  FILTER_CONTACTS,
+  SET_CURRENT_CONTACT,
+  UPDATE_CONTACT,
 } from '../types';
+
+const API_KEY = '/api/contacts';
 
 const ContactState = ({ children }) => {
   const initialState = {
-    contacts: [
-      {
-        id: 1,
-        name: 'Jill Johnson',
-        email: 'jill@gmail.com',
-        phone: '111-111-1111',
-        type: 'personal',
-      },
-      {
-        id: 2,
-        name: 'Sara Watson',
-        email: 'sara@gmail.com',
-        phone: '222-222-2222',
-        type: 'personal',
-      },
-      {
-        id: 3,
-        name: 'Harry White',
-        email: 'jill@gmail.com',
-        phone: '333-333-3333',
-        type: 'professional',
-      },
-    ],
+    contacts: null,
     current: null,
     filtered: null,
+    error: null,
   };
 
   const [state, dispatch] = useReducer(contactReducer, initialState);
 
+  // Get Contacts
+  const getContactsAction = async () => {
+    try {
+      const res = await axios.get(API_KEY);
+      dispatch({
+        type: GET_CONTACTS,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
+  };
+
   // Add Contact
-  const addContactAction = (contact) => {
-    contact.id = uuidv4();
-    dispatch({
-      type: ADD_CONTACT,
-      payload: contact,
-    });
+  const addContactAction = async (contact) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post(API_KEY, contact, config);
+      dispatch({
+        type: ADD_CONTACT,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
+  };
+
+  // Update Contact
+  const updateContactAction = async (contact) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.put(`${API_KEY}/${contact._id}`, contact, config);
+      dispatch({
+        type: UPDATE_CONTACT,
+        payload: res.data,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
   };
 
   // Delete Contact
-  const deleteContactAction = (id) => {
-    dispatch({
-      type: DELETE_CONTACT,
-      payload: id,
-    });
+  const deleteContactAction = async (id) => {
+    try {
+      await axios.delete(`${API_KEY}/${id}`);
+      dispatch({
+        type: DELETE_CONTACT,
+        payload: id,
+      });
+    } catch (err) {
+      dispatch({
+        type: CONTACT_ERROR,
+        payload: err.response.msg,
+      });
+    }
   };
 
   // Set Current Contact
@@ -75,11 +119,10 @@ const ContactState = ({ children }) => {
     });
   };
 
-  // Update Contact
-  const updateContactAction = (contact) => {
+  // Clear Contacts
+  const clearContactsAction = () => {
     dispatch({
-      type: UPDATE_CONTACT,
-      payload: contact,
+      type: CLEAR_CONTACTS,
     });
   };
 
@@ -104,13 +147,16 @@ const ContactState = ({ children }) => {
         contacts: state.contacts,
         current: state.current,
         filtered: state.filtered,
+        error: state.error,
         addContactAction,
+        clearContactsAction,
+        clearCurrentContactAction,
+        clearFilterAction,
         deleteContactAction,
+        filterContactsAction,
+        getContactsAction,
         updateContactAction,
         setCurrentContactAction,
-        clearCurrentContactAction,
-        filterContactsAction,
-        clearFilterAction,
       }}>
       {children}
     </ContactContext.Provider>

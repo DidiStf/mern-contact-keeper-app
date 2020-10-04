@@ -12,11 +12,11 @@ const ContactItem = ({ contact }) => {
     setCurrentContactAction,
     clearCurrentContactAction,
   } = useContext(ContactContext);
-  const { id, name, email, phone, type } = contact;
+  const { _id, name, email, phone, type } = contact;
   const transformedType = firstLetterToUpperCase(type);
 
   const handleClickDelete = () => {
-    deleteContactAction(id);
+    deleteContactAction(_id);
     clearCurrentContactAction();
   };
 
@@ -31,7 +31,7 @@ const ContactItem = ({ contact }) => {
         <span
           className={classnames(
             'badge badge-right',
-            type === 'professional' ? 'badge-success' : 'badge-primary'
+            type === 'professional' ? 'badge-primary' : 'badge-success'
           )}>
           {transformedType}
         </span>

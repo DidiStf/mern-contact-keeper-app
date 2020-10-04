@@ -1,27 +1,32 @@
 import {
   ADD_CONTACT,
-  DELETE_CONTACT,
-  SET_CURRENT_CONTACT,
+  CLEAR_CONTACTS,
   CLEAR_CURRENT_CONTACT,
-  UPDATE_CONTACT,
-  FILTER_CONTACTS,
   CLEAR_FILTER,
+  CONTACT_ERROR,
+  DELETE_CONTACT,
+  FILTER_CONTACTS,
+  GET_CONTACTS,
+  SET_CURRENT_CONTACT,
+  UPDATE_CONTACT,
 } from '../types';
 
 const contactsReducer = (state, action) => {
   switch (action.type) {
+    case GET_CONTACTS: {
+      const contacts = action.payload;
+      return {
+        ...state,
+        contacts,
+        loading: false,
+      };
+    }
     case ADD_CONTACT: {
       const contact = action.payload;
       return {
         ...state,
-        contacts: [...state.contacts, contact],
-      };
-    }
-    case DELETE_CONTACT: {
-      const id = action.payload;
-      return {
-        ...state,
-        contacts: state.contacts.filter((contact) => contact.id !== id),
+        contacts: [contact, ...state.contacts],
+        loading: false,
       };
     }
     case UPDATE_CONTACT: {
@@ -29,8 +34,17 @@ const contactsReducer = (state, action) => {
       return {
         ...state,
         contacts: state.contacts.map((c) =>
-          c.id === contact.id ? contact : c
+          c._id === contact._id ? contact : c
         ),
+        loading: false,
+      };
+    }
+    case DELETE_CONTACT: {
+      const id = action.payload;
+      return {
+        ...state,
+        contacts: state.contacts.filter((contact) => contact._id !== id),
+        loading: false,
       };
     }
     case SET_CURRENT_CONTACT: {
@@ -43,6 +57,15 @@ const contactsReducer = (state, action) => {
     case CLEAR_CURRENT_CONTACT: {
       return {
         ...state,
+        current: null,
+      };
+    }
+    case CLEAR_CONTACTS: {
+      return {
+        ...state,
+        contacts: null,
+        filtered: null,
+        error: null,
         current: null,
       };
     }
@@ -60,6 +83,12 @@ const contactsReducer = (state, action) => {
       return {
         ...state,
         filtered: null,
+      };
+    }
+    case CONTACT_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
       };
     }
     default:

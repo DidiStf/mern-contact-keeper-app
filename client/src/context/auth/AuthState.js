@@ -4,24 +4,24 @@ import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import authReducer from './authReducer';
 import {
-  REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  USER_LOADED,
   AUTH_ERROR,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT,
   CLEAR_ERRORS,
+  LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  LOGOUT,
+  REGISTER_FAIL,
+  REGISTER_SUCCESS,
+  USER_LOADED,
 } from '../types';
 import setAuthToken from '../../utils/setAuthToken';
 
 const AuthState = ({ children }) => {
   const initialState = {
-    token: localStorage.getItem('token'),
-    user: null,
+    error: null,
     isAuthenticated: null,
     loading: true,
-    error: null,
+    token: localStorage.getItem('token'),
+    user: null,
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -112,18 +112,17 @@ const AuthState = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        token: state.token,
-        user: state.user,
+        error: state.error,
         isAuthenticated: state.isAuthenticated,
         loading: state.loading,
-        error: state.error,
+        token: state.token,
+        user: state.user,
+        clearErrorsAction,
         loadUserAction,
-        registerUserAction,
         loginUserAction,
         logoutUserAction,
-        clearErrorsAction,
-      }}
-    >
+        registerUserAction,
+      }}>
       {children}
     </AuthContext.Provider>
   );

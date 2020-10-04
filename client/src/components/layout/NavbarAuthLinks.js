@@ -1,10 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { firstLetterToUpperCase } from '../../utils/textEdit';
+
 const NavbarAuthLinks = ({ onClickLogout, user }) => {
   return (
     <>
-      <li className='mx-2'>Hello, {user && user.name}</li>
+      <li className='mx-2'>
+        Hello, {user && firstLetterToUpperCase(user.name)}
+      </li>
       <li>
         <Link to='/'>Home</Link>
       </li>
