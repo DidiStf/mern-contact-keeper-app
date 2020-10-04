@@ -40,6 +40,7 @@ const Login = () => {
       setAlertAction(error, 'danger');
       clearErrorsAction();
     }
+    // eslint-disable-next-line
   }, [error]);
 
   useEffect(() => {
