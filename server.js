@@ -29,7 +29,7 @@ app.use('/api/contacts', contacts);
 app.use('/api/users', users);
 
 // Serve static assets in production
-if (process.end.NODE_ENV === 'production') {
+if (ENV === 'production') {
   // Set static folder
   app.use(express.static('client/build'));
 
