@@ -11,9 +11,12 @@ const users = require('./routes/users');
 
 dotenv.config({ path: './config/config.env' });
 
+const ENV = process.env.NODE_ENV;
+const PORT = process.env.PORT || 5000;
+
 const app = express();
 
-//  Connect to Database
+// Connect to Database
 connectDB();
 
 // Init Middleware
@@ -26,10 +29,6 @@ app.use('/api/auth', auth);
 app.use('/api/contacts', contacts);
 app.use('/api/users', users);
 
-const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () =>
-  console.log(
-    `Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.cyan.bold
-  )
+  console.log(`Server running in ${ENV} mode on port ${PORT}`.cyan.bold)
 );

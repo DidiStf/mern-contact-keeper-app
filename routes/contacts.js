@@ -18,7 +18,7 @@ router.get('/', authenticate, async (req, res) => {
     res.json(contacts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server Error.' });
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
@@ -51,7 +51,7 @@ router.post(
       res.json(contact);
     } catch (err) {
       console.error(err.message);
-      res.status(500).json({ msg: 'Server Error.' });
+      res.status(500).json({ msg: 'Server Error' });
     }
   }
 );
@@ -73,11 +73,11 @@ router.put('/:id', authenticate, async (req, res) => {
   try {
     let contact = await Contact.findById(id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found.' });
+    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
     // Make sure user owns contact
     if (contact.user.toString() !== req.user.id)
-      return res.status(401).json({ msg: 'Non authorized.' });
+      return res.status(401).json({ msg: 'Not authorized' });
 
     contact = await Contact.findByIdAndUpdate(
       id,
@@ -88,7 +88,7 @@ router.put('/:id', authenticate, async (req, res) => {
     res.json(contact);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server Error.' });
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
@@ -100,18 +100,18 @@ router.delete('/:id', authenticate, async (req, res) => {
   try {
     let contact = await Contact.findById(id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found.' });
+    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
 
     // Make sure user owns contact
     if (contact.user.toString() !== req.user.id)
-      return res.status(401).json({ msg: 'Non authorized.' });
+      return res.status(401).json({ msg: 'Non authorized' });
 
     await Contact.findByIdAndRemove(id);
 
-    res.json({ msg: 'Contact removed.' });
+    res.json({ msg: 'Contact removed' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server Error.' });
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
