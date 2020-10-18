@@ -1,5 +1,4 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { body, validationResult } = require('express-validator');
@@ -9,27 +8,23 @@ const userService = require('../services/user');
 
 const router = express.Router();
 
-// @route GET api/auth
-// @desc Get logged in user
-// @access Private
 router.get('/', authenticate, async (req, res) => {
   try {
     const user = await userService.findOneById(req.user.id);
     res.json({ user });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
-// @route POST api/auth
-// @desc Auth user and get token
-// @access Public
 router.post(
   '/',
   [
-    body('email', 'Please include a valid email.').isEmail(),
-    body('password', 'Please enter a password.').exists(),
+    body('email', 'Missing a valid required property email').isEmail(),
+    body('password', 'Missing a valid required property password')
+      .not()
+      .isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -43,14 +38,14 @@ router.post(
       let user = await userService.findOneByEmailForAuthentication(email);
 
       if (!user) {
-        return res.status(400).json({ msg: 'Inavlid credentials' });
+        return res.status(400).json({ message: 'Invalid credentials' });
       }
 
-      const isMatch = await bcrypt.compare(password, user.password);
-
-      if (!isMatch) {
-        return res.status(400).json({ msg: 'Invalid credentials' });
-      }
+      user.comparePassword(password, (_, match) => {
+        if (!match) {
+          return res.status(400).json({ message: 'Invalid credentials' });
+        }
+      });
 
       const payload = {
         user: {
@@ -62,16 +57,16 @@ router.post(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 360000,
+          expiresIn: 3600,
         },
-        (err, token) => {
-          if (err) throw err;
+        (error, token) => {
+          if (error) throw error;
           res.json({ token });
         }
       );
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).json({ msg: 'Server Error' });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: 'Server Error' });
     }
   }
 );

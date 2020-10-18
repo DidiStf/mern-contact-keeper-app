@@ -40,7 +40,7 @@ const AuthState = ({ children }) => {
         type: USER_LOADED,
         payload: res.data,
       });
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: AUTH_ERROR,
       });
@@ -63,10 +63,10 @@ const AuthState = ({ children }) => {
         payload: res.data,
       });
       loadUserAction();
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: REGISTER_FAIL,
-        payload: err.response.data.msg,
+        payload: error.response.data.message,
       });
     }
   };
@@ -87,10 +87,10 @@ const AuthState = ({ children }) => {
         payload: res.data,
       });
       loadUserAction();
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: LOGIN_FAIL,
-        payload: err.response.data.msg,
+        payload: error.response.data.message,
       });
     }
   };

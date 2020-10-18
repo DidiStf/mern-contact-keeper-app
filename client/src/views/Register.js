@@ -91,6 +91,7 @@ const Register = () => {
             onChange={handleChange}
             required
             minLength='6'
+            autoComplete='off'
           />
         </div>
         <div className='form-group'>
