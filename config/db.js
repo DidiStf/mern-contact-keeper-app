@@ -11,12 +11,12 @@ const connectDB = async () => {
       useCreateIndex: true,
       useFindAndModify: false,
     });
-
-    console.log('MongoDB Connected...'.green);
+    process.env.NODE_ENV !== 'test' &&
+      console.log('MongoDB Connected...'.green);
   } catch (err) {
     console.error(err);
     process.exit(1);
   }
 };
 
-module.exports = connectDB;
+module.exports.connectDB = connectDB;

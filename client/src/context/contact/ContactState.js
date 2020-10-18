@@ -36,10 +36,10 @@ const ContactState = ({ children }) => {
         type: GET_CONTACTS,
         payload: res.data,
       });
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: CONTACT_ERROR,
-        payload: err.response.msg,
+        payload: error.response.message,
       });
     }
   };
@@ -58,10 +58,10 @@ const ContactState = ({ children }) => {
         type: ADD_CONTACT,
         payload: res.data,
       });
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: CONTACT_ERROR,
-        payload: err.response.msg,
+        payload: error.response.message,
       });
     }
   };
@@ -80,10 +80,10 @@ const ContactState = ({ children }) => {
         type: UPDATE_CONTACT,
         payload: res.data,
       });
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: CONTACT_ERROR,
-        payload: err.response.msg,
+        payload: error.response.message,
       });
     }
   };
@@ -96,10 +96,10 @@ const ContactState = ({ children }) => {
         type: DELETE_CONTACT,
         payload: id,
       });
-    } catch (err) {
+    } catch (error) {
       dispatch({
         type: CONTACT_ERROR,
-        payload: err.response.msg,
+        payload: error.response.message,
       });
     }
   };
