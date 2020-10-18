@@ -6,25 +6,25 @@ const contactService = require('../services/contact');
 
 const router = express.Router();
 
-// @route GET api/contacts
-// @desc Get all user's contacts
-// @access Private
 router.get('/', authenticate, async (req, res) => {
   try {
     const contacts = await contactService.findAllByUserId(req.user.id);
     res.json(contacts);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
-// @route POST api/contacts
-// @desc Add new contact
-// @access Private
 router.post(
   '/',
-  [authenticate, [body('name', 'Name is required.').not().isEmpty()]],
+  [
+    authenticate,
+    [
+      body('name', 'Missing a valid required property name').not().isEmpty(),
+      body('email', 'Missing a valid required property email').isEmail(),
+    ],
+  ],
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -46,65 +46,75 @@ router.post(
       const contact = await contactService.saveContact(contactData);
 
       res.json(contact);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).json({ msg: 'Server Error' });
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: 'Server Error' });
     }
   }
 );
 
-// @route PUT api/contacts/:id
-// @desc Update contact
-// @access Private
-router.put('/:id', authenticate, async (req, res) => {
-  const { name, email, phone, type } = req.body;
-  const { id } = req.params;
+router.put(
+  '/:id',
+  [
+    authenticate,
+    [
+      body('name', 'Missing a valid required property name').not().isEmpty(),
+      body('email', 'Missing a valid required property email').isEmail(),
+    ],
+  ],
+  async (req, res) => {
+    const { name, email, phone, type } = req.body;
+    const { id } = req.params;
+    const errors = validationResult(req);
 
-  //Build contact object
-  const contactFields = {};
-  if (name) contactFields.name = name;
-  if (email) contactFields.email = email;
-  if (phone) contactFields.phone = phone;
-  if (type) contactFields.type = type;
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-  try {
-    let contact = await contactService.findOneById(id);
+    //Build contact object
+    const contactFields = {};
+    if (name) contactFields.name = name;
+    if (email) contactFields.email = email;
+    if (phone) contactFields.phone = phone;
+    if (type) contactFields.type = type;
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    try {
+      let contact = await contactService.findOneById(id);
 
-    // Make sure user owns contact
-    if (contact.user.toString() !== req.user.id)
-      return res.status(401).json({ msg: 'Not authorized' });
+      if (!contact)
+        return res.status(404).json({ message: 'Contact not found' });
 
-    contact = await contactService.updateContact(id, contactFields);
+      // Make sure user owns contact
+      if (contact.user.toString() !== req.user.id)
+        return res.status(401).json({ message: 'Not authorized' });
 
-    res.json(contact);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error' });
+      contact = await contactService.updateContact(id, contactFields);
+
+      res.json(contact);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ message: 'Server Error' });
+    }
   }
-});
+);
 
-// @route DELETE api/contacts/:id
-// @desc Delete contact
-// @access Private
 router.delete('/:id', authenticate, async (req, res) => {
   const { id } = req.params;
   try {
     let contact = await contactService.findOneById(id);
 
-    if (!contact) return res.status(404).json({ msg: 'Contact not found' });
+    if (!contact) return res.status(404).json({ message: 'Contact not found' });
 
     // Make sure user owns contact
     if (contact.user.toString() !== req.user.id)
-      return res.status(401).json({ msg: 'Non authorized' });
+      return res.status(401).json({ message: 'Non authorized' });
 
     await contactService.deleteContact(id);
 
-    res.json({ msg: 'Contact removed' });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json({ msg: 'Server Error' });
+    res.json({ message: 'Contact removed' });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ message: 'Server Error' });
   }
 });
 
