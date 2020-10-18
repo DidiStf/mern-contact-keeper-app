@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (error === 'Inavlid credentials') {
+    if (error === 'Invalid credentials') {
       setAlertAction(error, 'danger');
       clearErrorsAction();
     }
@@ -73,6 +73,7 @@ const Login = () => {
             value={password}
             onChange={handleChange}
             required
+            autoComplete='off'
           />
         </div>
         <input
