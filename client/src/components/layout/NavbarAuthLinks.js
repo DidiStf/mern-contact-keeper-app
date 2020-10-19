@@ -1,26 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import NavbarLink from './NavbarLink';
+import LogoutLink from './LogoutLink';
 
 import { firstLetterToUpperCase } from '../../utils/textEdit';
 
 const NavbarAuthLinks = ({ onClickLogout, user }) => {
+  const name = user && firstLetterToUpperCase(user.name);
+  const greeting = `Hello, ${name}`;
+
   return (
     <>
-      <li className='mx-2'>
-        Hello, {user && firstLetterToUpperCase(user.name)}
-      </li>
-      <li>
-        <Link to='/'>Home</Link>
-      </li>
-      <li>
-        <Link to='/about'>About</Link>
-      </li>
-      <li>
-        <a onClick={onClickLogout} href='#!'>
-          <i className='fas fa-sign-out-alt' />
-          <span className='hide-sm'> Logout</span>
-        </a>
-      </li>
+      <NavbarLink title={greeting} />
+      <NavbarLink title='Home' to='/' />
+      <NavbarLink title='About' to='/about' />
+      <LogoutLink title='Logout' onClick={onClickLogout} />
     </>
   );
 };

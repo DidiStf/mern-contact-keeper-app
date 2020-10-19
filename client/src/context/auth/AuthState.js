@@ -1,5 +1,6 @@
-import axios from 'axios';
 import React, { useReducer } from 'react';
+
+import { loadUser, loginUser, registerUser } from '../../api/auth';
 
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -35,10 +36,10 @@ const AuthState = ({ children }) => {
     }
 
     try {
-      const res = await axios.get('api/auth');
+      const response = await loadUser();
       dispatch({
         type: USER_LOADED,
-        payload: res.data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -49,18 +50,12 @@ const AuthState = ({ children }) => {
 
   // Register User
   const registerUserAction = async (userData) => {
-    const config = {
-      header: {
-        'Content-Type': 'application/json',
-      },
-    };
-
     try {
-      const res = await axios.post('/api/users', userData, config);
+      const response = await registerUser(userData);
 
       dispatch({
         type: REGISTER_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       });
       loadUserAction();
     } catch (error) {
@@ -73,18 +68,12 @@ const AuthState = ({ children }) => {
 
   // Login User
   const loginUserAction = async (userData) => {
-    const config = {
-      header: {
-        'Content-Type': 'application/json',
-      },
-    };
-
     try {
-      const res = await axios.post('/api/auth', userData, config);
+      const response = await loginUser(userData);
 
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data,
+        payload: response.data,
       });
       loadUserAction();
     } catch (error) {

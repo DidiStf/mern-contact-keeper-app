@@ -1,5 +1,11 @@
-import axios from 'axios';
 import React, { useReducer } from 'react';
+
+import {
+  addContact,
+  deleteContact,
+  getContacts,
+  updateContact,
+} from '../../api/contacts';
 
 import ContactContext from './contactContext';
 import contactReducer from './contactReducer';
@@ -16,8 +22,6 @@ import {
   UPDATE_CONTACT,
 } from '../types';
 
-const API_KEY = '/api/contacts';
-
 const ContactState = ({ children }) => {
   const initialState = {
     contacts: null,
@@ -31,10 +35,10 @@ const ContactState = ({ children }) => {
   // Get Contacts
   const getContactsAction = async () => {
     try {
-      const res = await axios.get(API_KEY);
+      const response = await getContacts();
       dispatch({
         type: GET_CONTACTS,
-        payload: res.data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -46,17 +50,11 @@ const ContactState = ({ children }) => {
 
   // Add Contact
   const addContactAction = async (contact) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
     try {
-      const res = await axios.post(API_KEY, contact, config);
+      const response = await addContact(contact);
       dispatch({
         type: ADD_CONTACT,
-        payload: res.data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -68,17 +66,11 @@ const ContactState = ({ children }) => {
 
   // Update Contact
   const updateContactAction = async (contact) => {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
     try {
-      const res = await axios.put(`${API_KEY}/${contact._id}`, contact, config);
+      const response = await updateContact(contact);
       dispatch({
         type: UPDATE_CONTACT,
-        payload: res.data,
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
@@ -91,7 +83,7 @@ const ContactState = ({ children }) => {
   // Delete Contact
   const deleteContactAction = async (id) => {
     try {
-      await axios.delete(`${API_KEY}/${id}`);
+      await deleteContact(id);
       dispatch({
         type: DELETE_CONTACT,
         payload: id,
