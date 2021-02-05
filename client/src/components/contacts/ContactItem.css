@@ -1,0 +1,59 @@
+.ContactItem {
+  padding: 1rem;
+  border-radius: 7px;
+  margin: 0.7rem 0;
+  background: var(--light-color);
+  color: var(--dark-color);
+}
+
+.ContactItem_name {
+  color: var(--primary-color);
+  text-align: left;
+}
+
+.ContactItem_badge {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.7rem;
+  text-align: center;
+  margin: 0.3rem;
+  background: var(--light-color);
+  color: var(--dark-color);
+  border-radius: 5px;
+}
+
+.ContactItem_badge_primary {
+  background: var(--primary-color);
+  color: var(--light-color);
+}
+
+.ContactItem_badge_success {
+  background: var(--success-color);
+  color: var(--light-color);
+}
+
+.ContactItem_contacts {
+  margin: 0.5rem 0;
+}
+
+.ContactItem_contacts li {
+  padding-bottom: 0.3rem;
+}
+
+.ContactItem_edit,
+.ContactItem_delete {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  font-size: 0.8rem;
+  padding: 0.3rem 1rem;
+  margin-right: 0.2rem;
+  background: var(--dark-color);
+  color: var(--light-color);
+}
+
+.ContactItem_delete {
+  background: var(--danger-color);
+  color: var(--light-color);
+}

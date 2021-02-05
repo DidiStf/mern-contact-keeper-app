@@ -11,7 +11,7 @@ const NavbarAuthLinks = ({ onClickLogout, user }) => {
 
   return (
     <>
-      <NavbarLink title={greeting} />
+      {window.innerWidth >= 400 && <NavbarLink title={greeting} />}
       <NavbarLink title='Home' to='/' />
       <NavbarLink title='About' to='/about' />
       <LogoutLink title='Logout' onClick={onClickLogout} />

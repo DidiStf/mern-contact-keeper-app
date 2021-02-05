@@ -1,0 +1,6 @@
+.Spinner {
+  margin: auto;
+  display: block;
+  color: var(--light-color);
+  opacity: 0.7;
+}

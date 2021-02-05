@@ -1,14 +1,7 @@
 import React from 'react';
-import spinner from '../../assets/spinner.gif';
 
-const Spinner = () => {
-  return (
-    <img
-      src={spinner}
-      style={{ width: '200px', margin: 'auto', display: 'block' }}
-      alt='Loading...'
-    />
-  );
-};
+import './Spinner.css';
+
+const Spinner = () => <i className='Spinner fas fa-spinner fa-pulse fa-8x'></i>;
 
 export default Spinner;

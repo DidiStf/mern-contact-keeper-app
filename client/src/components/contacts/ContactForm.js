@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import ContactContext from '../../context/contact/contactContext';
 
+import './ContactForm.css';
+
 const ContactForm = () => {
   const {
     addContactAction,
@@ -55,8 +57,8 @@ const ContactForm = () => {
   }, [current]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className='text-primary'>
+    <form className='ContactForm' onSubmit={handleSubmit}>
+      <h2 className='ContactForm_title'>
         {current ? 'Edit Contact' : 'Add Contact'}
       </h2>
       <input
@@ -103,14 +105,15 @@ const ContactForm = () => {
         <input
           type='submit'
           value={current ? 'Update Contact' : 'Add Contact'}
-          className='btn btn-primary btn-block'
+          className='ContactForm_submit'
         />
       </div>
       {current && (
         <div>
           <button
-            className='btn btn-light btn-block'
-            onClick={handleClickClear}>
+            className='ContactForm_clear btn btn-light btn-block'
+            onClick={handleClickClear}
+          >
             Clear
           </button>
         </div>

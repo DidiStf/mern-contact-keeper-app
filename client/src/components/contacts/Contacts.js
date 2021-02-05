@@ -6,6 +6,8 @@ import ContactContext from '../../context/contact/contactContext';
 import ContactItem from './ContactItem';
 import Spinner from '../layout/Spinner';
 
+import './Contacts.css';
+
 const Contacts = () => {
   const contactContext = useContext(ContactContext);
 
@@ -21,13 +23,14 @@ const Contacts = () => {
   }
 
   return contacts !== null && !loading ? (
-    <TransitionGroup>
+    <TransitionGroup className='Contacts'>
       {filtered
         ? filtered.map((filteredContact) => (
             <CSSTransition
               key={filteredContact._id}
               timeout={500}
-              classNames='item'>
+              classNames='item'
+            >
               <ContactItem contact={filteredContact} />
             </CSSTransition>
           ))
