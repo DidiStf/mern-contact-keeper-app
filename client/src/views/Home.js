@@ -6,7 +6,9 @@ import Contacts from '../components/contacts/Contacts';
 import ContactFilter from '../components/contacts/ContactFilter';
 import ContactForm from '../components/contacts/ContactForm';
 
-const Home = () => {
+import './Home.css';
+
+const HomeView = () => {
   const { loadUserAction } = useContext(AuthContext);
 
   useEffect(() => {
@@ -15,11 +17,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='grid-2'>
-      <div>
+    <div className='HomeView'>
+      <div className='HomeView_left'>
         <ContactForm />
       </div>
-      <div>
+      <div className='HomeView_right'>
         <ContactFilter />
         <Contacts />
       </div>
@@ -27,4 +29,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeView;

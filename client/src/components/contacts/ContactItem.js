@@ -6,6 +6,8 @@ import ContactContext from '../../context/contact/contactContext';
 
 import { firstLetterToUpperCase } from '../../utils/textEdit';
 
+import './ContactItem.css';
+
 const ContactItem = ({ contact }) => {
   const {
     deleteContactAction,
@@ -25,18 +27,21 @@ const ContactItem = ({ contact }) => {
   };
 
   return (
-    <div className='card bg-light'>
-      <h3 className='text-primary text-left'>
+    <div className='ContactItem'>
+      <h3 className='ContactItem_name'>
         {name}{' '}
         <span
           className={classnames(
-            'badge badge-right',
-            type === 'professional' ? 'badge-primary' : 'badge-success'
-          )}>
+            'ContactItem_badge',
+            type === 'professional'
+              ? 'ContactItem_badge_primary'
+              : 'ContactItem_badge_success'
+          )}
+        >
           {transformedType}
         </span>
       </h3>
-      <ul className='list'>
+      <ul className='ContactItem_contacts'>
         {email && (
           <li>
             <i className='fas fa-envelope-open' /> {email}
@@ -49,10 +54,10 @@ const ContactItem = ({ contact }) => {
         )}
       </ul>
       <p>
-        <button className='btn btn-dark sm' onClick={handleClickEdit}>
+        <button className='ContactItem_edit' onClick={handleClickEdit}>
           Edit
         </button>
-        <button className='btn btn-danger sm' onClick={handleClickDelete}>
+        <button className='ContactItem_delete' onClick={handleClickDelete}>
           Delete
         </button>
       </p>

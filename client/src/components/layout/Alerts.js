@@ -3,6 +3,8 @@ import React, { useContext } from 'react';
 
 import AlertContext from '../../context/alert/alertContext';
 
+import './Alerts.css';
+
 const Alerts = () => {
   const { alerts } = useContext(AlertContext);
 
@@ -11,7 +13,8 @@ const Alerts = () => {
     alerts.map((alert) => (
       <div
         key={alert.id}
-        className={classnames('alert', `alert-${alert.type}`)}>
+        className={classnames('Alert', `Alert_${alert.type}`)}
+      >
         <i className='fas fa-info-circle' /> {alert.message}
       </div>
     ))

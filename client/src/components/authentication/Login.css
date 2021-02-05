@@ -1,0 +1,51 @@
+.Login {
+  width: 70%;
+  padding: 5%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(7px);
+}
+
+.Login_heading {
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.Login_form_group {
+  margin: 1.2rem 0;
+}
+
+.Login_form_group input {
+  margin: 0.2rem 0;
+}
+
+.Login_form_group input[type='email'],
+.Login_form_group input[type='password'] {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+
+.Login_button {
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  display: block;
+  width: 100%;
+  background: var(--primary-color);
+  color: var(--light-color);
+  border-radius: 7px;
+}
+
+@media (max-width: 767px) {
+  .Login {
+    width: 100%;
+  }
+}

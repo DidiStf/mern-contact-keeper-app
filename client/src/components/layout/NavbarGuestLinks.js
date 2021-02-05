@@ -2,7 +2,7 @@ import React from 'react';
 
 import NavbarLink from './NavbarLink';
 
-const NavbarGuestLinks = ({ user }) => {
+const NavbarGuestLinks = () => {
   return (
     <>
       <NavbarLink title='Register' to='/register' />

@@ -1,0 +1,48 @@
+.ContactForm {
+  width: 100%;
+  padding: 5%;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(7px);
+}
+
+.ContactForm_title {
+  color: var(--primary-color);
+}
+
+.ContactForm input {
+  margin: 1.2rem 0;
+}
+
+.ContactForm input[type='text'],
+.ContactForm input[type='email'] {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+}
+
+.ContactForm_submit,
+.ContactForm_clear {
+  font: inherit;
+  border-radius: 7px;
+  display: inline-block;
+  background: var(--light-color);
+  color: var(--dark-color);
+  padding: 0.4rem 1.3rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: opacity 0.2s ease-in;
+  outline: none;
+  display: block;
+  width: 100%;
+}
+
+.ContactForm_submit {
+  background: var(--primary-color);
+  color: var(--light-color);
+}

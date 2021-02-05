@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import setAuthToken from './utils/setAuthToken';
 
-import About from './views/About';
-import Home from './views/Home';
-import Login from './views/Login';
-import Register from './views/Register';
+import AboutView from './views/About';
+import HomeView from './views/Home';
+import LoginView from './views/Login';
+import RegisterView from './views/Register';
 import Alerts from './components/layout/Alerts';
 import Navbar from './components/layout/Navbar';
 import AlertState from './context/alert/AlertState';
@@ -28,18 +28,18 @@ const App = () => {
       <ContactState>
         <AlertState>
           <Router>
-            <>
+            <div className='App'>
               <Navbar />
               <div className='container'>
                 <Alerts />
                 <Switch>
-                  <PrivateRoute exact path='/' component={Home} />
-                  <Route exact path='/about' component={About} />
-                  <Route exact path='/register' component={Register} />
-                  <Route exact path='/login' component={Login} />
+                  <PrivateRoute exact path='/' component={HomeView} />
+                  <Route exact path='/about' component={AboutView} />
+                  <Route exact path='/register' component={RegisterView} />
+                  <Route exact path='/login' component={LoginView} />
                 </Switch>
               </div>
-            </>
+            </div>
           </Router>
         </AlertState>
       </ContactState>
