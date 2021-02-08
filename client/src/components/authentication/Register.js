@@ -99,6 +99,7 @@ const Register = () => {
         <div className='Register_form_group'>
           <label htmlFor='confirmPassword'>Confirm Password</label>
           <input
+            autoComplete='new-password'
             type='password'
             name='confirmPassword'
             value={confirmPassword}
