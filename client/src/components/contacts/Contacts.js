@@ -19,7 +19,7 @@ const Contacts = () => {
   }, []);
 
   if (contacts?.length === 0) {
-    return <h4>Please add some contacts.</h4>;
+    return <h4 className='Contacts_alt'>Please add some contacts.</h4>;
   }
 
   return contacts !== null && !loading ? (

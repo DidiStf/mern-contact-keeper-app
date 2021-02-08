@@ -1,3 +1,7 @@
 .Contacts {
   height: auto;
 }
+
+.Contacts_alt {
+  color: var(--light-color);
+}
