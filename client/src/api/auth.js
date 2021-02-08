@@ -11,5 +11,3 @@ const config = {
 export const loadUser = () => axios.get(API_KEY);
 
 export const loginUser = (userData) => axios.post(API_KEY, userData, config);
-
-export const registerUser = (userData) => axios.post(API_KEY, userData, config);

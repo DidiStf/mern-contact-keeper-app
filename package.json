@@ -1,5 +1,5 @@
 {
-  "name": "contact-keeper",
+  "name": "my-contacts",
   "version": "1.0.0",
   "description": "Contact manager app.",
   "jest": {

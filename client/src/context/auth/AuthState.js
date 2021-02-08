@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 
-import { loadUser, loginUser, registerUser } from '../../api/auth';
+import { loadUser, loginUser } from '../../api/auth';
+import { registerUser } from '../../api/users';
 
 import AuthContext from './authContext';
 import authReducer from './authReducer';
@@ -111,7 +112,8 @@ const AuthState = ({ children }) => {
         loginUserAction,
         logoutUserAction,
         registerUserAction,
-      }}>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
